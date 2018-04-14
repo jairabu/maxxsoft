@@ -1,0 +1,132 @@
+<mat-toolbar color="info">
+  <mat-toolbar-row>
+    <mat-icon class="menu-icone">assignment_turned_in</mat-icon>
+    <span class="titulo">Serviços</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container-card mat-elevation-z2" (window:resize)="onResize($event)">
+  <mat-tab-group [selectedIndex]="indiceAbas" (selectedTabChange)="alterarAba($event)">
+    <mat-tab label="Listagem">
+      <div class="header-filtro">
+        <mat-form-field>
+          <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtro">
+        </mat-form-field>
+      </div>
+      <mat-table #table [dataSource]="entidades" matSort>
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="valorTotal">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Valor Total </mat-header-cell>
+          <mat-cell *matCellDef="let element"> R$ {{element.valorTotal | number : '1.2-2'}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status" class="desktop">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusServico">{{element.statusServico.nome}}</div>
+            <div *ngIf="!element.statusServico">Nenhum</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="contato" class="desktop">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Contato </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.contato">{{element.contato.nome}}</div>
+            <div *ngIf="!element.contato">Nenhum</div>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+        <mat-row *matRowDef="let linha; columns: colunas;" class="linha-table"
+          (click)="selecionarLinha(linha)"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator
+                     [pageSize]="5"
+                     [pageSizeOptions]="[5, 10, 20]"
+                     [showFirstLastButtons]="true">
+      </mat-paginator>
+    </mat-tab>
+    <mat-tab label="Formulário">
+      <mat-card-content>
+        <form>
+          <div class="row">
+            <mat-form-field class="col-md-2">
+              <input matInput placeholder="Código" name="id"
+              [(ngModel)]="entidade.id" disabled>
+            </mat-form-field>
+            <mat-form-field class="col-md-3" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Motivo de Chamado" name="motivoChamado"
+                [(ngModel)]="entidade.motivoChamado">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-4" floatPlaceholder="auto">
+              <textarea matInput placeholder="Diagnóstico Técnico"
+                [(ngModel)]="entidade.diagnosticoTecnico" name="diagnosticoTecnico"></textarea>
+            </mat-form-field>
+            <mat-form-field class="col-md-4" floatPlaceholder="auto">
+              <textarea matInput placeholder="Descrição do Serviço"
+                [(ngModel)]="entidade.descricaoServico" name="descricaoServico"></textarea>
+            </mat-form-field>
+            <mat-form-field class="col-md-4" floatPlaceholder="auto">
+              <textarea matInput placeholder="Informação Adicional"
+                [(ngModel)]="entidade.informacaoAdicional" name="informacaoAdicional"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-3">
+              <input matInput currencyMask placeholder="Valor Total"
+                [(ngModel)]="entidade.valorTotal" name="valorTotal" />
+            </mat-form-field>
+            <mat-form-field class="col-md-2">
+              <input type="text" [(ngModel)]="entidade.tipoServico" name="tipoServico"
+                placeholder="Tipo de Serviço" aria-label="Tipo de Serviço"
+                matInput [formControl]="tipoServicoAutocomplete" [matAutocomplete]="tipoServicoAuto">
+                <mat-autocomplete #tipoServicoAuto="matAutocomplete" [displayWith]="tipoServicoDisplay">
+                  <mat-option>Nenhum</mat-option>
+                  <mat-option *ngFor="let option of tipoServicos" [value]="option">
+                    {{ option.nome }}
+                  </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="col-md-2">
+              <input type="text" [(ngModel)]="entidade.statusServico" name="statusServico"
+                placeholder="Status de Serviço" aria-label="Status de Serviço"
+                matInput [formControl]="statusServicoAutocomplete" [matAutocomplete]="statusServicoAuto">
+                <mat-autocomplete #statusServicoAuto="matAutocomplete" [displayWith]="statusServicoDisplay">
+                  <mat-option>Nenhum</mat-option>
+                  <mat-option *ngFor="let option of statusServicos" [value]="option">
+                    {{ option.nome }}
+                  </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="col-md-2">
+              <input type="text" [(ngModel)]="entidade.contato" name="contato"
+                placeholder="Contato" aria-label="Contato"
+                matInput [formControl]="contatoAutocomplete" [matAutocomplete]="contatoAuto">
+                <mat-autocomplete #contatoAuto="matAutocomplete" [displayWith]="contatoDisplay">
+                  <mat-option>Nenhum</mat-option>
+                  <mat-option *ngFor="let option of contatos" [value]="option">
+                    {{ option.nome }}
+                  </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="desktop">
+        <button mat-raised-button (click)="salvar()" *ngIf="!entidade.id" color="primary">Salvar</button>
+        <button mat-raised-button (click)="atualizar()" *ngIf="entidade.id" color="primary">Atualizar</button>
+        <button mat-raised-button (click)="remover()" *ngIf="entidade.id">Remover</button>
+        <button mat-raised-button (click)="cancelar()">Cancelar</button>
+      </mat-card-actions>
+      <mat-card-actions class="mobile">
+        <button mat-raised-button (click)="salvar()" *ngIf="!entidade.id" color="primary"><mat-icon>add_to_queue</mat-icon></button>
+        <button mat-raised-button (click)="atualizar()" *ngIf="entidade.id" color="primary"><mat-icon>save</mat-icon></button>
+        <button mat-raised-button (click)="remover()" *ngIf="entidade.id" color="primary"><mat-icon>delete_forever</mat-icon></button>
+        <button mat-raised-button (click)="cancelar()" color="primary"><mat-icon>trending_flat</mat-icon></button>
+      </mat-card-actions>
+    </mat-tab>
+  </mat-tab-group>
+</div>

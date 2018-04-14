@@ -1,0 +1,56 @@
+Instalar Java 8:
+http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html
+
+Instalar Eclipse IDE for Java EE Developers:
+http://www.eclipse.org/downloads/eclipse-packages/
+
+Instalar PostgreSQL 9.6:
+https://www.postgresql.org/download/windows/
+
+Instalar Atom:
+https://atom.io/
+
+Instalar Node.js e NPM (LTS):
+https://nodejs.org/en/download/
+
+Instalar Angular CLI globalmente:
+npm install -g @angular/cli
+
+Criar projeto, entrar no Prompt de Comando e digitar:
+cd \
+ng new angular-maxx-soft
+cd angular-maxx-soft
+
+Instalar módulos dentro da pasta angular-crud do projeto:
+npm install --save @angular/material @angular/cdk
+npm install --save @angular/animations
+npm install --save hammerjs
+npm install --save bootstrap
+npm install --save @ng-bootstrap/ng-bootstrap
+npm install ng2-currency-mask --save
+
+Em caso de erro remover a pasta node_modules e digitar:
+npm install
+npm link
+
+Executar Angular:
+ng serve --open
+
+Criar banco de dados maxxsoft dentro do PgAdmin
+
+Configurar Eclipse: 
+Instalar lombok
+Dar update com maven
+Dar clean no projeto
+
+Deploy:
+http://www.devglan.com/spring-boot/spring-boot-angular-deployment
+
+Comandos Git:
+git config --global user.name "Jair"
+git config --global user.email jairabu@gmail.com
+git init
+git remote add origin https://github.com/jairabu/maxxsoft.git
+git add *.*
+git commit -m "Primeiro commit"
+git push -u origin master

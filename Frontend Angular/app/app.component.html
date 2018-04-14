@@ -1,0 +1,23 @@
+<mat-toolbar color="primary" class="mat-elevation-z6">
+  <mat-toolbar-row>
+    <img *ngIf="parametro" src="{{parametro.enderecoLogomarca}}" width="64px" style="margin-right:20px"/>
+    <span>MaxxSoft</span>
+    <span class="menu-espaco"></span>
+    <button mat-button [matMenuTriggerFor]="menuUsuarios" [disabled]="!isLogged()"><strong>Cadastros</strong></button>
+    <mat-menu #menuUsuarios="matMenu">
+      <button mat-menu-item routerLink="/usuario" [disabled]="!isAdm()"><mat-icon>face</mat-icon>Usuários</button>
+      <button mat-menu-item routerLink="/contato"><mat-icon>assignment_ind</mat-icon>Contatos</button>
+      <button mat-menu-item routerLink="/servico"><mat-icon>assignment_turned_in</mat-icon>Serviços</button>
+      <button mat-menu-item routerLink="/tipo-servico" [disabled]="!isAdm()"><mat-icon>add_to_queue</mat-icon>Tipos de Serviço</button>
+      <button mat-menu-item routerLink="/status-servico" [disabled]="!isAdm()"><mat-icon>assignment_late</mat-icon>Status de Serviço</button>
+    </mat-menu>
+    <button mat-button routerLink="/ajuda"><strong>Ajuda</strong></button>
+    <button mat-button routerLink="/home" *ngIf="!isLogged()"><strong>Entrar</strong></button>
+    <button mat-button routerLink="/home" *ngIf="isLogged()" (click)="sair()"><strong>Sair</strong></button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="container-fluid">
+  <mat-card class="mat-elevation-z6" [class.mat-card-login]="isLogin">
+    <router-outlet></router-outlet>
+  </mat-card>
+</div>

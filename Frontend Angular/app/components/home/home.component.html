@@ -1,0 +1,26 @@
+<mat-toolbar color="info">
+  <mat-toolbar-row>
+    <mat-icon class="menu-icone">vpn_key</mat-icon>
+    <span class="titulo">Autenticação</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="container-card mat-elevation-z2" (window:resize)="onResize($event)">
+  <mat-card-content>
+    <form style="padding-left:15px; padding-right:15px;">
+      <div class="row">
+        <mat-form-field floatPlaceholder="auto">
+          <input autofocus matInput
+          placeholder="Login" name="login" [(ngModel)]="entidade.login">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field floatPlaceholder="auto">
+          <input type="password" matInput placeholder="Senha" [(ngModel)]="entidade.senha" name="senha">
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="entrar()" color="primary">Entrar</button>
+  </mat-card-actions>
+</div>

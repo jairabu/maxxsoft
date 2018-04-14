@@ -1,0 +1,137 @@
+<mat-toolbar color="info">
+  <mat-toolbar-row>
+    <mat-icon class="menu-icone">assignment_ind</mat-icon>
+    <span class="titulo">Contatos</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container-card mat-elevation-z2" (window:resize)="onResize($event)">
+  <mat-tab-group [selectedIndex]="indiceAbas" (selectedTabChange)="alterarAba($event)">
+    <mat-tab label="Listagem">
+      <div class="header-filtro">
+        <mat-form-field>
+          <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtro">
+        </mat-form-field>
+      </div>
+      <mat-table #table [dataSource]="entidades" matSort>
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nome">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sobrenome" class="desktop">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Sobrenome </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.sobrenome}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="email" class="desktop">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+        <mat-row *matRowDef="let linha; columns: colunas;" class="linha-table"
+          (click)="selecionarLinha(linha)"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator
+                     [pageSize]="5"
+                     [pageSizeOptions]="[5, 10, 20]"
+                     [showFirstLastButtons]="true">
+      </mat-paginator>
+    </mat-tab>
+    <mat-tab label="Formulário">
+      <mat-card-content>
+        <form>
+          <div class="row">
+            <mat-form-field class="col-md-2">
+              <input matInput placeholder="Código" name="id"
+              [(ngModel)]="entidade.id" disabled>
+            </mat-form-field>
+            <mat-form-field class="col-md-3" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Nome" name="nome"
+                [(ngModel)]="entidade.nome">
+            </mat-form-field>
+            <mat-form-field class="col-md-3" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Sobrenome" name="sobrenome"
+                [(ngModel)]="entidade.sobrenome">
+            </mat-form-field>
+            <mat-form-field class="col-md-2" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Telefone" name="telefone"
+                [(ngModel)]="entidade.telefone">
+            </mat-form-field>
+            <mat-form-field class="col-md-2" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Celular" name="celular"
+                [(ngModel)]="entidade.celular">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-2" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="E-mail" name="email"
+                [(ngModel)]="entidade.email">
+            </mat-form-field>
+            <mat-form-field class="col-md-5" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Endereço" name="endereco"
+                [(ngModel)]="entidade.endereco">
+            </mat-form-field>
+            <mat-form-field class="col-md-5" floatPlaceholder="auto">
+              <input autofocus matInput
+                placeholder="Informação Adicional" name="informacaoAdicional"
+                [(ngModel)]="entidade.informacaoAdicional">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-2" floatPlaceholder="auto">
+              <input matInput [matDatepicker]="dataCadastroPicker"
+                placeholder="Data de Cadastro"
+                name="dataCadastro"
+                [(ngModel)]="entidade.dataCadastro">
+              <mat-datepicker-toggle matSuffix [for]="dataCadastroPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dataCadastroPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-2">
+              <input type="text"
+                [(ngModel)]="entidade.usuario" name="usuario"
+                placeholder="Usuário" aria-label="Usuário" *ngIf="isAdm()"
+                matInput [formControl]="usuarioAutocomplete" [matAutocomplete]="usuarioAuto">
+                <mat-autocomplete #usuarioAuto="matAutocomplete" [displayWith]="usuarioDisplay">
+                  <mat-option>Nenhum</mat-option>
+                  <mat-option *ngFor="let option of usuarios" [value]="option">
+                    {{ option.nome }}
+                  </mat-option>
+                </mat-autocomplete>
+              <input matInput disabled
+              placeholder="Usuário" name="usuario"
+              *ngIf="!isAdm() && entidade.usuario"
+              [(ngModel)]="entidade.usuario.nome">
+              <input matInput disabled
+              placeholder="Usuário" name="usuario"
+              *ngIf="!isAdm() && !entidade.usuario"
+              value="Sem usuário">
+            </mat-form-field>
+
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="desktop">
+        <button mat-raised-button (click)="salvar()" *ngIf="!entidade.id" color="primary">Salvar</button>
+        <button mat-raised-button (click)="atualizar()" *ngIf="entidade.id" color="primary">Atualizar</button>
+        <button mat-raised-button (click)="remover()" *ngIf="entidade.id">Remover</button>
+        <button mat-raised-button (click)="cancelar()">Cancelar</button>
+      </mat-card-actions>
+      <mat-card-actions class="mobile">
+        <button mat-raised-button (click)="salvar()" *ngIf="!entidade.id" color="primary"><mat-icon>add_to_queue</mat-icon></button>
+        <button mat-raised-button (click)="atualizar()" *ngIf="entidade.id" color="primary"><mat-icon>save</mat-icon></button>
+        <button mat-raised-button (click)="remover()" *ngIf="entidade.id" color="primary"><mat-icon>delete_forever</mat-icon></button>
+        <button mat-raised-button (click)="cancelar()" color="primary"><mat-icon>trending_flat</mat-icon></button>
+      </mat-card-actions>
+    </mat-tab>
+  </mat-tab-group>
+</div>

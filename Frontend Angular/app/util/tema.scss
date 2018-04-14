@@ -1,0 +1,49 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-primary: (
+    50 : #55db89,
+    100 : #01a85b,
+    200 : #007830,
+    300 : #01a85b,
+    400 : #01a85b,
+    500 : #01a85b,
+    600 : #01a85b,
+    700 : #01a85b,
+    800 : #01a85b,
+    900 : #01a85b,
+    A100 : #01a85b,
+    A200 : #01a85b,
+    A400 : #01a85b,
+    A700 : #01a85b,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$candy-app-primary: mat-palette($my-primary, A200, A100, A400);
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-primary, $candy-app-primary);
+@include angular-material-theme($candy-app-theme);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto, monospace',
+  /*$font-family: 'Dancing Script, cursive',*/
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(18px, 24px, 500)
+);
+
+@include angular-material-typography($custom-typography);
+@include mat-core($custom-typography);

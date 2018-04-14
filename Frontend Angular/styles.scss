@@ -1,0 +1,144 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+@import 'app/util/tema.scss';
+
+.rodape {
+  color: #10e821;
+  text-align: center;
+}
+
+.email-contato {
+  font-size: 11px;
+  color: #01a85b;
+}
+
+.slogan {
+  font-size: 11px;
+  color: #01a85b;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  text-align: center !important;
+  display: inline-block !important;
+  position: relative  !important;
+}
+
+.cidade-uf-empresa {
+  margin-top: -16px;
+  font-size: 11px;
+  color: #01a85b;
+  width: 100%;
+  text-align: right;
+}
+
+.button:active, button:active,
+.button:focus, button:focus,
+.button:hover, button:hover{
+    border:none !important;
+    outline:none !important;
+}
+
+.mat-card {
+  margin: 25px 25px 25px 25px !important;
+  padding: 0px 0px 0px 0px !important;
+}
+
+.mat-card-login {
+  padding: 0px 0px 0px 0px !important;
+  width: 350px !important;
+  margin-top: 25px !important;
+  margin-bottom: 25px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.mat-card-content {
+  padding: 25px 25px 0px 25px !important;
+  width: 100%;
+}
+
+.mat-card-actions {
+  padding-left: 40px !important;
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.campo-formulario {
+  color:grey;
+}
+
+.container-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.header-filtro {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.titulo {
+  padding-left: 20px;
+}
+
+.menu-icone {
+  padding: 0 14px;
+}
+
+.menu-espaco {
+  flex: 1 1 auto;
+}
+
+.spinner-container {
+  padding-left: 25px;
+  padding-top: 25px;
+  height: 0px;
+}
+
+.linha-table {
+    cursor: pointer;
+}
+
+.importacao {
+	cursor: pointer;
+	filter: alpha(opacity=0);
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+/* CSS Mobile */
+.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 500px) {
+  .container-fluid {
+    width: 100% !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
+  .desktop {
+    display: none !important;
+  }
+
+  .mobile {
+    display: block !important;
+  }
+
+  .mat-raised-button {
+    min-width: 10px !important;
+  }
+}
